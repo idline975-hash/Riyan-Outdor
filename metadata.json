@@ -1,0 +1,6 @@
+{
+  "name": "CampGear POS - Kasir Sewa Alat Gunung & Inventori",
+  "description": "Aplikasi kasir sewa peralatan gunung outdoor dengan manajemen inventaris barang, pelacakan nota denda/keterlambatan, dan sistem pembayaran digital QRIS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

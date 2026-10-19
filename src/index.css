@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* Full-width layout & Gesture Settings for Mobile Zoom & Prevention of accidental overflow */
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  font-size: 13.5px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 13.5px;
+  }
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Allow native pinch-to-zoom and multi-directional panning */
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+#root,
+.app {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+}
+
+/* User-controlled UI Scale (zoom) modes */
+.app-scale-75 {
+  zoom: 0.75;
+}
+.app-scale-80 {
+  zoom: 0.8;
+}
+.app-scale-85 {
+  zoom: 0.85;
+}
+.app-scale-88 {
+  zoom: 0.88;
+}
+.app-scale-90 {
+  zoom: 0.9;
+}
+.app-scale-95 {
+  zoom: 0.95;
+}
+.app-scale-100 {
+  zoom: 1;
+}
+
+@layer utilities {
+  .floating-card {
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 1.25rem;
+    border: 1px solid rgba(226, 232, 240, 0.85);
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .floating-card:hover {
+    box-shadow: 0 20px 30px -8px rgba(15, 23, 42, 0.1), 0 8px 12px -6px rgba(15, 23, 42, 0.06);
+    transform: translateY(-2px);
+  }
+}
+

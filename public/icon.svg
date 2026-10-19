@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E3A8A" />
+      <stop offset="50%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+    <linearGradient id="snowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E2E8F0" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded rect -->
+  <rect width="512" height="512" rx="108" fill="url(#bgGrad)" />
+
+  <!-- Mountain range -->
+  <!-- Left Mountain -->
+  <polygon points="120,400 240,220 340,400" fill="#1D4ED8" opacity="0.6" />
+  
+  <!-- Main Peak -->
+  <polygon points="140,400 256,160 410,400" fill="#0F172A" />
+  
+  <!-- Snow cap main peak -->
+  <polygon points="256,160 215,225 240,240 256,225 272,240 297,225" fill="url(#snowGrad)" />
+
+  <!-- Foreground Tent Symbol -->
+  <polygon points="200,400 280,290 360,400" fill="url(#goldGrad)" />
+  <polygon points="280,290 280,400 360,400" fill="#D97706" opacity="0.4" />
+  <polygon points="260,400 280,330 300,400" fill="#78350F" />
+
+  <!-- Modern Sun / Compass Accent -->
+  <circle cx="380" cy="140" r="32" fill="#FDE047" />
+
+  <!-- Text / Badge -->
+  <text x="256" y="460" font-family="system-ui, -apple-system, sans-serif" font-size="34" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">CAMPGEAR POS</text>
+</svg>
