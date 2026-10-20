@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { RentalOrder, GearItem, CashierShift } from '../types';
+import { playSound } from '../utils/sound';
 import { 
   getCachedOrders, 
   saveCachedOrders, 
@@ -60,6 +61,8 @@ export function useRealtimeSync(
 
         case 'order:created': {
           const newOrder = payload.data as RentalOrder;
+          playSound('success');
+          setSyncToastMessage(`Nota baru #${newOrder.orderNumber} (${newOrder.customerName}) masuk secara real-time!`);
           setOrders((prev) => {
             if (prev.some((o) => o.id === newOrder.id)) return prev;
             const next = [newOrder, ...prev];
@@ -71,6 +74,8 @@ export function useRealtimeSync(
 
         case 'order:updated': {
           const updated = payload.data as RentalOrder;
+          playSound('success');
+          setSyncToastMessage(`Nota #${updated.orderNumber} diperbarui secara real-time!`);
           setOrders((prev) => {
             const next = prev.map((o) => (o.id === updated.id ? updated : o));
             saveCachedOrders(next);
