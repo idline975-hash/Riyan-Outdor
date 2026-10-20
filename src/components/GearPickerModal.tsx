@@ -207,33 +207,6 @@ export const GearPickerModal: React.FC<GearPickerModalProps> = ({
             </div>
           </div>
 
-          {/* Quick Search Chips Suggestions */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 text-[11px] no-scrollbar">
-            <span className="text-[10px] font-black uppercase text-slate-400 shrink-0">Cepat:</span>
-            {[
-              { label: 'Tenda Dome', query: 'Tenda' },
-              { label: 'Carrier 60L', query: '60L' },
-              { label: 'Kompor Portable', query: 'Kompor' },
-              { label: 'Matras', query: 'Matras' },
-              { label: 'Sleeping Bag', query: 'Sleeping Bag' },
-              { label: 'Headlamp / Lampu', query: 'Lampu' },
-              { label: 'Nesting / Cookset', query: 'Nesting' },
-              { label: 'Trekking Pole', query: 'Pole' },
-            ].map((chip) => (
-              <button
-                key={chip.label}
-                type="button"
-                onClick={() => setSearchQuery(chip.query)}
-                className={`px-2 py-0.5 rounded-lg border text-[11px] font-semibold shrink-0 transition-colors cursor-pointer ${
-                  searchQuery.toLowerCase() === chip.query.toLowerCase()
-                    ? 'bg-blue-100 border-blue-300 text-blue-800 font-bold'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'
-                }`}
-              >
-                {chip.label}
-              </button>
-            ))}
-          </div>
 
           {/* Category Pills Bar */}
           <div className="flex gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">

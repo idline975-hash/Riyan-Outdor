@@ -10,6 +10,7 @@ interface ReturnModalProps {
   order: RentalOrder;
   onCompleteReturn: (updatedOrder: RentalOrder) => void;
   onOpenQrisForSettlement: (orderNumber: string, customerName: string, amount: number) => void;
+  onPrint: (order: RentalOrder) => void;
 }
 
 export const ReturnModal: React.FC<ReturnModalProps> = ({
@@ -18,6 +19,7 @@ export const ReturnModal: React.FC<ReturnModalProps> = ({
   order,
   onCompleteReturn,
   onOpenQrisForSettlement,
+  onPrint,
 }) => {
   // Track condition and fee per item
   const [itemsState, setItemsState] = useState<RentalOrderItem[]>(() =>
@@ -31,6 +33,7 @@ export const ReturnModal: React.FC<ReturnModalProps> = ({
 
   const [paymentChoice, setPaymentChoice] = useState<'TUNAI' | 'QRIS'>('TUNAI');
   const [returnGuarantee, setReturnGuarantee] = useState(true);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
   if (!isOpen) return null;
 
@@ -45,7 +48,6 @@ export const ReturnModal: React.FC<ReturnModalProps> = ({
     cond: 'Baik' | 'Kotor (Perlu Cuci)' | 'Rusak Ringan' | 'Rusak Parah' | 'Hilang'
   ) => {
     let fee = 0;
-    if (cond === 'Kotor (Perlu Cuci)') fee = 10000;
     if (cond === 'Rusak Ringan') fee = 25000;
     if (cond === 'Rusak Parah') fee = 75000;
     if (cond === 'Hilang') fee = 300000;
@@ -62,9 +64,7 @@ export const ReturnModal: React.FC<ReturnModalProps> = ({
   const remainingRentalFee = Math.max(0, order.totalRentalFee - order.paidAmount);
   const totalFineAndSettlement = order.overdueFine + damageTotal + remainingRentalFee;
 
-  const handleFinish = () => {
-    playSound('success');
-
+  const getUpdatedOrder = () => {
     const updatedOrder: RentalOrder = {
       ...order,
       items: itemsState,
@@ -76,8 +76,17 @@ export const ReturnModal: React.FC<ReturnModalProps> = ({
       paidAmount: order.totalRentalFee,
       returnedAt: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
     };
+    return updatedOrder;
+  };
 
-    onCompleteReturn(updatedOrder);
+  const handleFinish = () => {
+    setIsConfirmDialogOpen(true);
+  };
+
+  const confirmFinish = () => {
+    playSound('success');
+    onCompleteReturn(getUpdatedOrder());
+    setIsConfirmDialogOpen(false);
     onClose();
   };
 
@@ -186,8 +195,8 @@ export const ReturnModal: React.FC<ReturnModalProps> = ({
                           }
                           className="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium"
                         >
-                          <option value="Baik">Baik & Lengkap (Rp 0)</option>
-                          <option value="Kotor (Perlu Cuci)">Kotor / Cuci (+Rp 10.000)</option>
+                          <option value="Baik">Baik & Lengkap</option>
+                          <option value="Kotor (Perlu Cuci)">Kotor / Cuci</option>
                           <option value="Rusak Ringan">Sobek / Rusak Ringan (+Rp 25.000)</option>
                           <option value="Rusak Parah">Patah / Rusak Parah (+Rp 75.000)</option>
                           <option value="Hilang">Hilang (Ganti Rugi)</option>
@@ -304,6 +313,37 @@ export const ReturnModal: React.FC<ReturnModalProps> = ({
           </button>
         </div>
       </div>
+
+      {isConfirmDialogOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl space-y-4">
+            <div className="flex items-center gap-3 text-amber-600">
+              <AlertTriangle className="w-8 h-8" />
+              <h3 className="text-lg font-extrabold text-slate-900">Konfirmasi</h3>
+            </div>
+            <p className="text-sm text-slate-600">
+              Apakah Anda yakin ingin menyelesaikan pengembalian alat ini?
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => setIsConfirmDialogOpen(false)}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl text-sm"
+              >
+                Tidak
+              </button>
+              <button
+                onClick={() => {
+                  onPrint(getUpdatedOrder());
+                  confirmFinish();
+                }}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm"
+              >
+                Ya
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

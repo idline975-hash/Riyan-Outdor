@@ -468,79 +468,6 @@ export default function App() {
           )}
         </main>
 
-        {/* Mobile Persistent Bottom Quick Bar */}
-        <div className="sticky bottom-0 z-20 w-full px-3 sm:px-4 py-2 bg-white/95 backdrop-blur-md border-t border-slate-200 mt-auto">
-          <div className="w-full max-w-md mx-auto flex items-center justify-around text-[10px] font-bold text-slate-500">
-            <button
-              type="button"
-              onClick={() => {
-                setCurrentTab('home');
-                setActiveFilter('all');
-              }}
-              className={`flex flex-col items-center gap-0.5 cursor-pointer transition-transform active:scale-95 ${
-                currentTab === 'home' ? 'text-blue-600 font-extrabold' : 'hover:text-slate-900'
-              }`}
-            >
-              <span className="text-base">🏠</span>
-              <span>Kasir</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setCurrentTab('booked')}
-              className={`relative flex flex-col items-center gap-0.5 cursor-pointer transition-transform active:scale-95 ${
-                currentTab === 'booked' ? 'text-amber-600 font-extrabold' : 'hover:text-slate-900'
-              }`}
-            >
-              <span className="text-base">📅</span>
-              <span>Booked</span>
-              {bookedCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 text-white rounded-full text-[9px] font-black flex items-center justify-center shadow-xs">
-                  {bookedCount}
-                </span>
-              )}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsInputNotaOpen(true)}
-              className="flex flex-col items-center -mt-5 cursor-pointer"
-            >
-              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-700 to-blue-500 text-white flex items-center justify-center text-2xl shadow-[0_8px_20px_rgba(37,99,235,0.4)] border-3 border-white hover:scale-105 active:scale-95 transition-all">
-                +
-              </div>
-              <span className="text-blue-600 mt-0.5 font-bold">Sewa Baru</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setCurrentTab('out')}
-              className={`relative flex flex-col items-center gap-0.5 cursor-pointer transition-transform active:scale-95 ${
-                currentTab === 'out' ? 'text-blue-600 font-extrabold' : 'hover:text-slate-900'
-              }`}
-            >
-              <span className="text-base">🚀</span>
-              <span>Out</span>
-              {outCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white rounded-full text-[9px] font-black flex items-center justify-center shadow-xs">
-                  {outCount}
-                </span>
-              )}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setCurrentTab('report')}
-              className={`flex flex-col items-center gap-0.5 cursor-pointer transition-transform active:scale-95 ${
-                currentTab === 'report' ? 'text-blue-600 font-extrabold' : 'hover:text-slate-900'
-              }`}
-            >
-              <span className="text-base">📊</span>
-              <span>Laporan</span>
-            </button>
-          </div>
-        </div>
-
         {/* New Order Modal (Input Nota) */}
         {isInputNotaOpen && (
           <InputNotaModal
@@ -593,6 +520,7 @@ export default function App() {
                 paymentType: 'denda',
               });
             }}
+            onPrint={(order) => setPrintReceiptState({ order, type: 'return' })}
           />
         )}
 

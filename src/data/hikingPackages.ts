@@ -1,4 +1,4 @@
-import { HikingPackage } from '../types';
+import type { HikingPackage } from '../types.ts';
 
 export const HIKING_PACKAGES: HikingPackage[] = [
   {

@@ -1,4 +1,4 @@
-import { GearItem, RentalOrder, Customer, CashierShift } from '../types';
+import type { GearItem, RentalOrder, Customer, CashierShift } from '../types.ts';
 
 export const INITIAL_GEAR_INVENTORY: GearItem[] = [
   // ================= TENDA & SHELTER =================
