@@ -91,6 +91,16 @@ export interface Customer {
   lastRentalDate: string;
 }
 
+export interface CashierUser {
+  id: string;
+  name: string;
+  role: 'Admin Toko' | 'Kasir Utama';
+  pin: string;
+  avatarColor: string;
+  shiftDefault?: 'Shift 1' | 'Shift 2';
+  lastLoginAt?: string;
+}
+
 export interface CashierShift {
   cashierName: string;
   shiftName: string;

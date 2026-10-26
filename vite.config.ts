@@ -93,11 +93,13 @@ export default defineConfig(() => {
           ],
         },
         devOptions: {
-          enabled: true,
-          type: 'module',
+          enabled: false,
         },
       }),
     ],
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'lucide-react', 'canvas-confetti', 'html2canvas'],
+    },
     resolve: {
       alias: {
         '@': path.resolve(process.cwd(), '.'),

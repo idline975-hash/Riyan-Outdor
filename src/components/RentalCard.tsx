@@ -49,14 +49,17 @@ export const RentalCard: React.FC<RentalCardProps> = ({
   const isPaid = order.paymentStatus === 'LUNAS';
 
   return (
-    <div className={`bg-white/95 backdrop-blur-md rounded-2xl border transition-all duration-200 overflow-hidden shadow-[0_8px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_30px_rgba(15,23,42,0.1)] hover:-translate-y-0.5 ${
-      hasFine ? 'border-rose-300 ring-2 ring-rose-100' : 'border-slate-200/90 hover:border-slate-300'
+    <div className={`glass-card rounded-2xl border transition-all duration-300 overflow-hidden shadow-[0_8px_25px_rgba(15,23,42,0.05)] hover:shadow-[0_20px_40px_rgba(15,23,42,0.1)] hover:-translate-y-1 relative ${
+      hasFine ? 'border-rose-300/80 ring-2 ring-rose-400/20' : 'border-white/80 hover:border-white'
     }`}>
-      {/* Top subtle line accent */}
+      {/* Specular glass highlight reflection on top edge */}
+      <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
+
+      {/* Top status accent */}
       {hasFine && <div className="h-1 bg-gradient-to-r from-rose-500 to-amber-500 w-full" />}
       {!hasFine && order.itemStatus === 'Sudah Kembali' && <div className="h-1 bg-emerald-500 w-full" />}
 
-      <div className="p-3 sm:p-3.5 space-y-2">
+      <div className="p-3 sm:p-3.5 space-y-2 relative z-10">
         {/* Header: Customer Name & Payment Status Badge */}
         <div className="flex items-start justify-between gap-2 min-w-0">
           <div className="min-w-0 flex-1">
@@ -72,7 +75,7 @@ export const RentalCard: React.FC<RentalCardProps> = ({
               {order.guaranteeType && (
                 <>
                   <span>·</span>
-                  <span className="text-amber-700 bg-amber-50 px-1 py-0.2 rounded text-[10px] flex items-center gap-0.5 border border-amber-200/60 whitespace-nowrap">
+                  <span className="text-amber-800 bg-amber-500/10 backdrop-blur-xs px-1.5 py-0.5 rounded-md text-[10px] font-semibold flex items-center gap-0.5 border border-amber-500/20 whitespace-nowrap">
                     <ShieldCheck className="w-2.5 h-2.5 text-amber-600 inline" />
                     {order.guaranteeType}
                   </span>
@@ -84,23 +87,23 @@ export const RentalCard: React.FC<RentalCardProps> = ({
           {/* Payment Status Pill */}
           <div className="shrink-0">
             {order.paymentStatus === 'BELUM LUNAS' ? (
-              <span className="inline-block bg-rose-500 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs whitespace-nowrap">
+              <span className="inline-block bg-rose-500 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm whitespace-nowrap border border-white/20">
                 Belum Lunas
               </span>
             ) : order.paymentStatus === 'DP' ? (
-              <span className="inline-block bg-amber-500 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs whitespace-nowrap">
+              <span className="inline-block bg-amber-500 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm whitespace-nowrap border border-white/20">
                 DP (Kurang {formatRupiah(order.totalRentalFee - order.paidAmount)})
               </span>
             ) : (
-              <span className="inline-block bg-emerald-500 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs whitespace-nowrap">
+              <span className="inline-block bg-emerald-500 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm whitespace-nowrap border border-white/20">
                 Lunas
               </span>
             )}
           </div>
         </div>
 
-        {/* Gray Container: Periode Sewa & Keterlambatan */}
-        <div className="border border-slate-200/90 bg-slate-50/70 rounded-xl p-2 sm:p-2.5 grid grid-cols-2 gap-2">
+        {/* Gray Container: Periode Sewa & Keterlambatan with Glass effect */}
+        <div className="border border-white/70 bg-white/50 backdrop-blur-md rounded-xl p-2 sm:p-2.5 grid grid-cols-2 gap-2 shadow-2xs">
           <div>
             <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wide">
               Periode Sewa
@@ -124,7 +127,7 @@ export const RentalCard: React.FC<RentalCardProps> = ({
 
         {/* Dashed Box: Sisa Denda (Shown if fine exists or customer is late) */}
         {order.totalFine > 0 ? (
-          <div className="border-2 border-dashed border-rose-300 bg-rose-50/60 rounded-xl px-3.5 py-2.5 flex items-center justify-between">
+          <div className="border border-dashed border-rose-300 bg-rose-50/80 backdrop-blur-md rounded-xl px-3.5 py-2.5 flex items-center justify-between shadow-2xs">
             <div className="flex items-center gap-1.5 text-rose-600 font-bold text-xs sm:text-sm">
               <AlertCircle className="w-4 h-4 text-rose-500 fill-rose-100" />
               <span>Sisa Denda</span>

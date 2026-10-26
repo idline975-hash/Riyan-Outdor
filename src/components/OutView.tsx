@@ -108,13 +108,13 @@ export const OutView: React.FC<OutViewProps> = ({
   return (
     <div className="space-y-3.5 pb-8 animate-in fade-in duration-200">
       {/* Top Header Card */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-3.5 sm:p-4 shadow-xs flex items-center justify-between">
+      <div className="glass-surface border border-white/80 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
               Out / Sedang Disewa
             </h1>
-            <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-extrabold uppercase">
+            <span className="px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-900 text-[10px] font-extrabold uppercase border border-blue-500/20 backdrop-blur-xs">
               Barang di Luar
             </span>
           </div>
@@ -127,84 +127,90 @@ export const OutView: React.FC<OutViewProps> = ({
           <button
             type="button"
             onClick={onSwitchToBookedView}
-            className="px-3 py-1.5 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors cursor-pointer"
+            className="px-3 py-1.5 glass-button border border-amber-300/80 text-amber-800 rounded-xl text-xs font-bold hover:bg-amber-50/80 transition-all cursor-pointer shadow-2xs"
           >
             ← Menu Booked
           </button>
         </div>
       </div>
 
-      {/* 3 Metric Cards for OUT */}
+      {/* 3 Metric Cards for OUT with Specular Glass Finish */}
       <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
-        {/* 1. SEDANG DISEWA (Blue) */}
+        {/* 1. SEDANG DISEWA (Blue Glass) */}
         <button
           type="button"
           onClick={() => setActiveTab('all_out')}
-          className={`relative flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all transform active:scale-95 text-center cursor-pointer shadow-[0_8px_20px_rgba(37,99,235,0.3)] select-none hover:-translate-y-0.5 ${
+          className={`relative overflow-hidden flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all active:scale-95 text-center cursor-pointer select-none backdrop-blur-md border border-white/40 ${
             activeTab === 'all_out'
-              ? 'ring-3 ring-blue-400 ring-offset-2 scale-[1.02] shadow-[0_12px_25px_rgba(37,99,235,0.45)]'
-              : 'hover:brightness-105'
+              ? 'ring-2 ring-blue-300 ring-offset-2 ring-offset-white/80 scale-[1.03] shadow-[0_12px_28px_rgba(37,99,235,0.4)]'
+              : 'shadow-[0_8px_20px_rgba(37,99,235,0.22)] hover:-translate-y-0.5'
           }`}
           style={{
-            background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
+            background: 'linear-gradient(135deg, rgba(37,99,235,0.92) 0%, rgba(29,78,216,0.92) 100%)',
+            boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 8px 20px rgba(37, 99, 235, 0.22)',
           }}
         >
-          <span className="text-[10px] sm:text-xs font-black uppercase tracking-tight">
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent rounded-t-2xl pointer-events-none" />
+          <span className="relative z-10 text-[10px] sm:text-xs font-black uppercase tracking-tight drop-shadow-xs">
             SEDANG DISEWA
           </span>
-          <span className="text-xl sm:text-2xl font-black mt-0.5 tracking-tight">
+          <span className="relative z-10 text-xl sm:text-2xl font-black mt-0.5 tracking-tight drop-shadow-sm">
             {activeOutOrders.length}
           </span>
           {activeTab === 'all_out' && (
-            <span className="absolute -bottom-1.5 w-4 h-1 bg-white rounded-full"></span>
+            <span className="relative z-10 mt-1 w-4 h-1 bg-white rounded-full shadow-xs"></span>
           )}
         </button>
 
-        {/* 2. JATUH TEMPO (Amber) */}
+        {/* 2. JATUH TEMPO (Amber Glass) */}
         <button
           type="button"
           onClick={() => setActiveTab('due_today')}
-          className={`relative flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all transform active:scale-95 text-center cursor-pointer shadow-[0_8px_20px_rgba(234,140,0,0.3)] select-none hover:-translate-y-0.5 ${
+          className={`relative overflow-hidden flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all active:scale-95 text-center cursor-pointer select-none backdrop-blur-md border border-white/40 ${
             activeTab === 'due_today'
-              ? 'ring-3 ring-amber-400 ring-offset-2 scale-[1.02] shadow-[0_12px_25px_rgba(234,140,0,0.45)]'
-              : 'hover:brightness-105'
+              ? 'ring-2 ring-amber-300 ring-offset-2 ring-offset-white/80 scale-[1.03] shadow-[0_12px_28px_rgba(234,140,0,0.4)]'
+              : 'shadow-[0_8px_20px_rgba(234,140,0,0.22)] hover:-translate-y-0.5'
           }`}
           style={{
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            background: 'linear-gradient(135deg, rgba(245,158,11,0.92) 0%, rgba(217,119,6,0.92) 100%)',
+            boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 8px 20px rgba(234, 140, 0, 0.22)',
           }}
         >
-          <span className="text-[10px] sm:text-xs font-black uppercase tracking-tight">
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent rounded-t-2xl pointer-events-none" />
+          <span className="relative z-10 text-[10px] sm:text-xs font-black uppercase tracking-tight drop-shadow-xs">
             TEMPO HARI INI
           </span>
-          <span className="text-xl sm:text-2xl font-black mt-0.5 tracking-tight">
+          <span className="relative z-10 text-xl sm:text-2xl font-black mt-0.5 tracking-tight drop-shadow-sm">
             {dueTodayOrders.length}
           </span>
           {activeTab === 'due_today' && (
-            <span className="absolute -bottom-1.5 w-4 h-1 bg-white rounded-full"></span>
+            <span className="relative z-10 mt-1 w-4 h-1 bg-white rounded-full shadow-xs"></span>
           )}
         </button>
 
-        {/* 3. TERLAMBAT / DENDA (Rose/Red) */}
+        {/* 3. TERLAMBAT / DENDA (Rose Glass) */}
         <button
           type="button"
           onClick={() => setActiveTab('overdue')}
-          className={`relative flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all transform active:scale-95 text-center cursor-pointer shadow-[0_8px_20px_rgba(225,29,72,0.3)] select-none hover:-translate-y-0.5 ${
+          className={`relative overflow-hidden flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all active:scale-95 text-center cursor-pointer select-none backdrop-blur-md border border-white/40 ${
             activeTab === 'overdue'
-              ? 'ring-3 ring-rose-400 ring-offset-2 scale-[1.02] shadow-[0_12px_25px_rgba(225,29,72,0.45)]'
-              : 'hover:brightness-105'
+              ? 'ring-2 ring-rose-300 ring-offset-2 ring-offset-white/80 scale-[1.03] shadow-[0_12px_28px_rgba(225,29,72,0.4)]'
+              : 'shadow-[0_8px_20px_rgba(225,29,72,0.22)] hover:-translate-y-0.5'
           }`}
           style={{
-            background: 'linear-gradient(135deg, #F43F5E 0%, #E11D48 100%)',
+            background: 'linear-gradient(135deg, rgba(244,63,94,0.92) 0%, rgba(225,29,72,0.92) 100%)',
+            boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 8px 20px rgba(225, 29, 72, 0.22)',
           }}
         >
-          <span className="text-[10px] sm:text-xs font-black uppercase tracking-tight">
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent rounded-t-2xl pointer-events-none" />
+          <span className="relative z-10 text-[10px] sm:text-xs font-black uppercase tracking-tight drop-shadow-xs">
             TERLAMBAT
           </span>
-          <span className="text-xl sm:text-2xl font-black mt-0.5 tracking-tight">
+          <span className="relative z-10 text-xl sm:text-2xl font-black mt-0.5 tracking-tight drop-shadow-sm">
             {overdueOrders.length}
           </span>
           {activeTab === 'overdue' && (
-            <span className="absolute -bottom-1.5 w-4 h-1 bg-white rounded-full"></span>
+            <span className="relative z-10 mt-1 w-4 h-1 bg-white rounded-full shadow-xs"></span>
           )}
         </button>
       </div>
@@ -215,10 +221,10 @@ export const OutView: React.FC<OutViewProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('all_out')}
-            className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition-all cursor-pointer backdrop-blur-md ${
               activeTab === 'all_out'
-                ? 'bg-blue-600 text-white shadow-xs'
-                : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+                ? 'bg-blue-600 text-white shadow-sm border border-blue-500'
+                : 'glass-pill text-slate-700 hover:bg-white/90 border border-white/80'
             }`}
           >
             Semua Out ({activeOutOrders.length})

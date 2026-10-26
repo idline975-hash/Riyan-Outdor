@@ -22,18 +22,27 @@ import { InventoryView } from './components/InventoryView';
 import { CustomerView } from './components/CustomerView';
 import { ReportView } from './components/ReportView';
 import { ShiftModal } from './components/ShiftModal';
+import { CashierLoginModal } from './components/CashierLoginModal';
 import { PackagesView } from './components/PackagesView';
+import { SettingsView } from './components/SettingsView';
 import { BookedView } from './components/BookedView';
 import { OutView } from './components/OutView';
 import { TakeItemModal } from './components/TakeItemModal';
 import { PWAUpdateToast } from './components/PWAUpdateToast';
 import { UiScaleOption } from './components/ScaleSelector';
-import { HikingPackage } from './types';
+import { HikingPackage, CashierUser } from './types';
 import { 
   getCachedOrders, 
   getCachedInventory, 
   getCachedCustomers, 
-  getCachedShift 
+  getCachedShift,
+  getCachedCashiers,
+  saveCachedCashiers,
+  getCachedActiveCashierId,
+  saveCachedActiveCashierId,
+  getCachedLoginStatus,
+  saveCachedLoginStatus,
+  DEFAULT_CASHIERS
 } from './utils/offlineStorage';
 import { useRealtimeSync } from './hooks/useRealtimeSync';
 
@@ -63,7 +72,7 @@ export default function App() {
 
   // Navigation & Drawer
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [currentTab, setCurrentTab] = useState<'home' | 'input-nota' | 'booked' | 'out' | 'report' | 'inventory' | 'customer' | 'packages'>('home');
+  const [currentTab, setCurrentTab] = useState<'home' | 'input-nota' | 'booked' | 'out' | 'report' | 'inventory' | 'customer' | 'packages' | 'settings'>('home');
 
   // Search & Filter
   const [searchQuery, setSearchQuery] = useState('');
@@ -96,6 +105,59 @@ export default function App() {
   const [selectedOrderForReturn, setSelectedOrderForReturn] = useState<RentalOrder | null>(null);
   const [selectedOrderForTake, setSelectedOrderForTake] = useState<RentalOrder | null>(null);
   const [isShiftModalOpen, setIsShiftModalOpen] = useState(false);
+
+  // Cashier Accounts & Authentication State
+  const [cashiers, setCashiers] = useState<CashierUser[]>(() => getCachedCashiers());
+  const [activeCashierId, setActiveCashierId] = useState<string>(() => getCachedActiveCashierId());
+  const [isCashierLoggedIn, setIsCashierLoggedIn] = useState<boolean>(() => getCachedLoginStatus());
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+
+  const activeCashier =
+    cashiers.find((c) => c.id === activeCashierId) ||
+    cashiers.find((c) => c.name === currentShift.cashierName) ||
+    cashiers[0] ||
+    DEFAULT_CASHIERS[0];
+
+  const handleCashierLogin = (cashier: CashierUser, shiftName: string, openingCash: number) => {
+    setActiveCashierId(cashier.id);
+    setIsCashierLoggedIn(true);
+    saveCachedActiveCashierId(cashier.id);
+    saveCachedLoginStatus(true);
+    setIsLoginModalOpen(false);
+
+    const isShift1 = shiftName === 'Shift 1';
+    const hours = isShift1 ? '08:00 - 16:00' : '16:00 - 23:00';
+
+    const nowStr = 'Hari ini, ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    const updatedCashiers = cashiers.map((c) =>
+      c.id === cashier.id ? { ...c, lastLoginAt: nowStr } : c
+    );
+    setCashiers(updatedCashiers);
+    saveCachedCashiers(updatedCashiers);
+
+    setCurrentShift((prev) => {
+      const nextShift: CashierShift = {
+        ...prev,
+        cashierName: cashier.name,
+        shiftName: shiftName,
+        shiftHours: hours,
+        openingCash: openingCash,
+      };
+      broadcastAction('update_shift', nextShift);
+      return nextShift;
+    });
+  };
+
+  const handleCashierLogout = () => {
+    setIsCashierLoggedIn(false);
+    saveCachedLoginStatus(false);
+    setIsLoginModalOpen(true);
+  };
+
+  const handleSaveCashiers = (updated: CashierUser[]) => {
+    setCashiers(updated);
+    saveCachedCashiers(updated);
+  };
 
   // Digital Payment (QRIS) Modal State
   const [qrisState, setQrisState] = useState<{
@@ -334,22 +396,31 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen bg-slate-100 text-slate-800 flex flex-col selection:bg-blue-500 selection:text-white w-full max-w-full overflow-x-hidden app app-scale-${uiScale}`}>
-      {/* App Container: Automatically adapts smoothly to HP, Tablet, and Desktop */}
+    <div className={`min-h-screen bg-slate-900/5 relative text-slate-800 flex flex-col selection:bg-blue-500 selection:text-white w-full max-w-full overflow-x-hidden app app-scale-${uiScale}`}>
+      {/* Ambient background light orbs for frosted glass refraction */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-sky-400/20 blur-3xl" />
+        <div className="absolute top-1/4 -right-40 w-[30rem] h-[30rem] rounded-full bg-indigo-500/15 blur-3xl" />
+        <div className="absolute top-2/3 left-1/3 w-96 h-96 rounded-full bg-emerald-400/15 blur-3xl" />
+        <div className="absolute -bottom-20 right-1/4 w-80 h-80 rounded-full bg-amber-400/15 blur-3xl" />
+      </div>
+
+      {/* App Container: Automatically adapts smoothly to HP, Tablet, and Desktop with glassy aesthetic */}
       <div
-        className={`w-full flex flex-col transition-all duration-300 mx-auto ${
+        className={`w-full flex flex-col transition-all duration-300 mx-auto relative z-10 ${
           viewMode === 'phone-sim'
-            ? 'max-w-md bg-white shadow-2xl my-3 sm:my-6 rounded-3xl border border-slate-300 min-h-[92vh]'
-            : 'max-w-7xl bg-slate-50/70 w-full min-h-screen'
+            ? 'max-w-md glass-surface shadow-[0_25px_60px_-15px_rgba(15,23,42,0.18)] my-3 sm:my-6 rounded-3xl border border-white/80 min-h-[92vh] overflow-hidden'
+            : 'max-w-7xl bg-white/40 backdrop-blur-3xl w-full min-h-screen border-x border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.03)]'
         }`}
       >
         {/* Top Header Bar */}
-        <div className="sticky top-0 z-30 w-full px-2 sm:px-4 py-2 bg-slate-100/90 backdrop-blur-md">
+        <div className="sticky top-0 z-30 w-full px-2 sm:px-4 py-2 bg-white/40 backdrop-blur-xl border-b border-white/60">
           <TopBar
             onOpenSidebar={() => setIsSidebarOpen(true)}
             onOpenNewOrder={() => setIsInputNotaOpen(true)}
             currentShift={currentShift}
             onOpenShiftModal={() => setIsShiftModalOpen(true)}
+            onOpenLoginModal={() => setIsLoginModalOpen(true)}
             viewMode={viewMode}
             onToggleViewMode={() => setViewMode(viewMode === 'auto' ? 'phone-sim' : 'auto')}
             isOnline={isOnline}
@@ -380,6 +451,10 @@ export default function App() {
           onOpenShiftModal={() => {
             setIsSidebarOpen(false);
             setIsShiftModalOpen(true);
+          }}
+          onOpenLoginModal={() => {
+            setIsSidebarOpen(false);
+            setIsLoginModalOpen(true);
           }}
         />
 
@@ -464,6 +539,19 @@ export default function App() {
           {currentTab === 'packages' && (
             <PackagesView
               onSelectPackageForRental={handleSelectPackageForRental}
+            />
+          )}
+
+          {currentTab === 'settings' && (
+            <SettingsView
+              uiScale={uiScale}
+              onSetUiScale={handleSetUiScale}
+              viewMode={viewMode}
+              onToggleViewMode={() => setViewMode(viewMode === 'auto' ? 'phone-sim' : 'auto')}
+              orders={orders}
+              inventory={inventory}
+              onOpenLoginModal={() => setIsLoginModalOpen(true)}
+              currentShift={currentShift}
             />
           )}
         </main>
@@ -557,6 +645,22 @@ export default function App() {
               setCurrentShift(updated);
               broadcastAction('update_shift', updated);
             }}
+          />
+        )}
+
+        {/* Cashier Login & Lock Screen Modal */}
+        {(!isCashierLoggedIn || isLoginModalOpen) && (
+          <CashierLoginModal
+            isOpen={!isCashierLoggedIn || isLoginModalOpen}
+            onClose={() => setIsLoginModalOpen(false)}
+            cashiers={cashiers}
+            activeCashier={activeCashier}
+            isLoggedIn={isCashierLoggedIn}
+            currentShift={currentShift}
+            onLoginSuccess={handleCashierLogin}
+            onLogout={handleCashierLogout}
+            onSaveCashiers={handleSaveCashiers}
+            isLockScreen={!isCashierLoggedIn}
           />
         )}
 

@@ -55,12 +55,12 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200 flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-slate-950/50 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="glass-modal rounded-3xl max-w-md w-full overflow-hidden shadow-[0_25px_65px_-12px_rgba(15,23,42,0.35)] border border-white/80 flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="p-3.5 sm:p-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
+        <div className="p-3.5 sm:p-4 glass-dark text-white flex items-center justify-between shrink-0 border-b border-white/10">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500 text-white font-extrabold flex items-center justify-center shrink-0 shadow-sm">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 text-white font-extrabold flex items-center justify-center shrink-0 shadow-sm ring-1 ring-white/40">
               {currentShift.cashierName.charAt(0).toUpperCase()}
             </div>
             <div>
@@ -75,7 +75,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:bg-slate-700 transition-colors cursor-pointer"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-800/80 border border-white/10 text-slate-300 flex items-center justify-center hover:bg-slate-700 hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -84,7 +84,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
         {/* Content */}
         <div className="p-5 space-y-4 text-xs">
           {/* Laci Kas Ringkasan */}
-          <div className="border border-slate-200 rounded-2xl p-3.5 bg-slate-50 space-y-2.5">
+          <div className="border border-white/80 rounded-2xl p-3.5 glass-surface space-y-2.5 shadow-2xs">
             <div className="font-bold text-slate-800 uppercase tracking-wide flex items-center justify-between">
               <span>Rekap Kas Laci Fisik</span>
               <span className="text-slate-400 font-normal">Tutup Shift</span>
@@ -116,7 +116,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
           </div>
 
           {/* Penerimaan Digital */}
-          <div className="border border-slate-200 rounded-2xl p-3.5 bg-slate-50 space-y-2">
+          <div className="border border-white/80 rounded-2xl p-3.5 glass-surface space-y-2 shadow-2xs">
             <div className="font-bold text-slate-800 uppercase tracking-wide">
               Penerimaan Non-Tunai (Rekening Toko)
             </div>
@@ -135,7 +135,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
                 </span>
                 <span className="font-bold text-blue-700">{formatRupiah(currentShift.transferIn)}</span>
               </div>
-              <div className="flex justify-between font-extrabold text-slate-900 pt-1 border-t border-slate-200">
+              <div className="flex justify-between font-extrabold text-slate-900 pt-1 border-t border-slate-200/80">
                 <span>Total Digital:</span>
                 <span>{formatRupiah(totalDigital)}</span>
               </div>
@@ -143,7 +143,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
           </div>
 
           {/* Switch Cashier / Shift Selector */}
-          <div className="border border-slate-200 rounded-2xl p-3.5 space-y-3">
+          <div className="border border-white/80 rounded-2xl p-3.5 glass-surface space-y-3 shadow-2xs">
             <div className="font-bold text-slate-800 uppercase tracking-wide">
               Ganti Kasir / Oper Shift:
             </div>
@@ -156,12 +156,10 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
                 <select
                   value={selectedCashier}
                   onChange={(e) => setSelectedCashier(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 font-bold text-slate-900"
+                  className="w-full glass-input rounded-xl px-2.5 py-1.5 font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                 >
-                  <option value="Faisal">Faisal</option>
-                  <option value="Zidan">Zidan</option>
-                  <option value="Andre">Andre</option>
-                  <option value="Rina">Rina</option>
+                  <option value="Kasir Utama">Kasir Utama</option>
+                  <option value="Admin Toko">Admin Toko</option>
                 </select>
               </div>
 
@@ -172,7 +170,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
                 <select
                   value={selectedShift}
                   onChange={(e) => setSelectedShift(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-2.5 py-1.5 font-bold text-slate-900"
+                  className="w-full glass-input rounded-xl px-2.5 py-1.5 font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                 >
                   <option value="Shift 1">Shift 1 (08:00 - 16:00)</option>
                   <option value="Shift 2">Shift 2 (16:00 - 23:00)</option>
@@ -184,7 +182,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
               <button
                 type="button"
                 onClick={handleResetCashFlow}
-                className="w-full py-2 bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 rounded-xl font-bold text-xs transition-colors cursor-pointer border border-slate-200"
+                className="w-full py-2 glass-button hover:bg-rose-50 hover:text-rose-600 text-slate-600 rounded-xl font-bold text-xs transition-colors cursor-pointer border border-white/80"
               >
                 Nolkan / Reset Arus Kas
               </button>
@@ -192,7 +190,7 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({
               <button
                 type="button"
                 onClick={handleSwitchCashier}
-                className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer text-xs"
+                className="w-full py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl font-bold flex items-center justify-center gap-1.5 transition-all shadow-md shadow-blue-500/25 cursor-pointer text-xs border border-white/20"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 <span>Simpan Perubahan</span>

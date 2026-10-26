@@ -109,14 +109,14 @@ export const BookedView: React.FC<BookedViewProps> = ({
 
   return (
     <div className="space-y-3.5 pb-8 animate-in fade-in duration-200">
-      {/* Top Header Card: Booked Payment & Shift Info (Faithful to Image) */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-3.5 sm:p-4 shadow-xs flex items-center justify-between">
+      {/* Top Header Card: Booked Payment & Shift Info */}
+      <div className="glass-surface border border-white/80 rounded-2xl p-3.5 sm:p-4 shadow-sm flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
               Booked Payment
             </h1>
-            <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-extrabold uppercase">
+            <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-900 text-[10px] font-extrabold uppercase border border-amber-500/20 backdrop-blur-xs">
               Reservasi Toko
             </span>
           </div>
@@ -127,15 +127,15 @@ export const BookedView: React.FC<BookedViewProps> = ({
 
         <div className="flex items-center gap-2">
           {/* Shift badge */}
-          <div className="px-2.5 py-1 bg-slate-100 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <div className="px-2.5 py-1 glass-button rounded-xl border border-white/80 text-slate-700 text-xs font-bold flex items-center gap-1.5 shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>{currentShift.shiftName}</span>
           </div>
 
           <button
             type="button"
             onClick={onOpenNewOrder}
-            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-black flex items-center gap-1 shadow-xs cursor-pointer active:scale-95 transition-all"
+            className="px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-black flex items-center gap-1 shadow-md shadow-blue-500/25 cursor-pointer active:scale-95 transition-all border border-white/20"
           >
             <Plus className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Booking Baru</span>
@@ -143,92 +143,98 @@ export const BookedView: React.FC<BookedViewProps> = ({
         </div>
       </div>
 
-      {/* 3 Top Summary Buttons (Exact Match to User Photo: BAYAR DP, AMBIL, SELESAI) */}
+      {/* 3 Top Summary Buttons with Specular Glass Finish */}
       <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
-        {/* 1. BAYAR DP (Yellow/Amber Card) */}
+        {/* 1. BAYAR DP (Yellow/Amber Glass) */}
         <button
           type="button"
           onClick={() => setActiveSubFilter(activeSubFilter === 'dp' ? 'all' : 'dp')}
-          className={`relative flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all transform active:scale-95 text-center cursor-pointer shadow-[0_8px_20px_rgba(234,140,0,0.3)] select-none hover:-translate-y-0.5 ${
+          className={`relative overflow-hidden flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all active:scale-95 text-center cursor-pointer select-none backdrop-blur-md border border-white/40 ${
             activeSubFilter === 'dp'
-              ? 'ring-3 ring-amber-400 ring-offset-2 scale-[1.02] shadow-[0_12px_25px_rgba(234,140,0,0.45)]'
-              : 'hover:brightness-105'
+              ? 'ring-2 ring-amber-300 ring-offset-2 ring-offset-white/80 scale-[1.03] shadow-[0_12px_28px_rgba(234,140,0,0.4)]'
+              : 'shadow-[0_8px_20px_rgba(234,140,0,0.22)] hover:-translate-y-0.5'
           }`}
           style={{
-            background: 'linear-gradient(135deg, #FFB020 0%, #EA8C00 100%)',
+            background: 'linear-gradient(135deg, rgba(255,176,32,0.92) 0%, rgba(234,140,0,0.92) 100%)',
+            boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 8px 20px rgba(234, 140, 0, 0.22)',
           }}
         >
-          <span className="text-[10px] sm:text-xs font-black uppercase tracking-tight">
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent rounded-t-2xl pointer-events-none" />
+          <span className="relative z-10 text-[10px] sm:text-xs font-black uppercase tracking-tight drop-shadow-xs">
             BAYAR DP
           </span>
-          <span className="text-xl sm:text-2xl font-black mt-0.5 tracking-tight">
+          <span className="relative z-10 text-xl sm:text-2xl font-black mt-0.5 tracking-tight drop-shadow-sm">
             {bayarDpCount}
           </span>
           {activeSubFilter === 'dp' && (
-            <span className="absolute -bottom-1.5 w-4 h-1 bg-white rounded-full"></span>
+            <span className="relative z-10 mt-1 w-4 h-1 bg-white rounded-full shadow-xs"></span>
           )}
         </button>
 
-        {/* 2. AMBIL / SIAP DIAMBIL (Blue Card with Shadow) */}
+        {/* 2. AMBIL / SIAP DIAMBIL (Blue Glass) */}
         <button
           type="button"
           onClick={() => setActiveSubFilter(activeSubFilter === 'ready' ? 'all' : 'ready')}
-          className={`relative flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all transform active:scale-95 text-center cursor-pointer shadow-[0_8px_20px_rgba(37,99,235,0.3)] select-none hover:-translate-y-0.5 ${
+          className={`relative overflow-hidden flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all active:scale-95 text-center cursor-pointer select-none backdrop-blur-md border border-white/40 ${
             activeSubFilter === 'ready'
-              ? 'ring-3 ring-blue-400 ring-offset-2 scale-[1.02] shadow-[0_12px_25px_rgba(37,99,235,0.45)]'
-              : 'hover:brightness-105'
+              ? 'ring-2 ring-blue-300 ring-offset-2 ring-offset-white/80 scale-[1.03] shadow-[0_12px_28px_rgba(37,99,235,0.4)]'
+              : 'shadow-[0_8px_20px_rgba(37,99,235,0.22)] hover:-translate-y-0.5'
           }`}
           style={{
-            background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+            background: 'linear-gradient(135deg, rgba(59,130,246,0.92) 0%, rgba(29,78,216,0.92) 100%)',
+            boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 8px 20px rgba(37, 99, 235, 0.22)',
           }}
         >
-          <span className="text-[10px] sm:text-xs font-black uppercase tracking-tight">
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent rounded-t-2xl pointer-events-none" />
+          <span className="relative z-10 text-[10px] sm:text-xs font-black uppercase tracking-tight drop-shadow-xs">
             AMBIL
           </span>
-          <span className="text-xl sm:text-2xl font-black mt-0.5 tracking-tight">
+          <span className="relative z-10 text-xl sm:text-2xl font-black mt-0.5 tracking-tight drop-shadow-sm">
             {siapAmbilCount}
           </span>
           {activeSubFilter === 'ready' && (
-            <span className="absolute -bottom-1.5 w-4 h-1 bg-white rounded-full"></span>
+            <span className="relative z-10 mt-1 w-4 h-1 bg-white rounded-full shadow-xs"></span>
           )}
         </button>
 
-        {/* 3. SELESAI / SUDAH DIAMBIL (Green Card with Checkmark) */}
+        {/* 3. SELESAI / SUDAH DIAMBIL (Emerald Glass) */}
         <button
           type="button"
           onClick={() => setActiveSubFilter(activeSubFilter === 'taken' ? 'all' : 'taken')}
-          className={`relative flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all transform active:scale-95 text-center cursor-pointer shadow-[0_8px_20px_rgba(21,167,80,0.3)] select-none hover:-translate-y-0.5 ${
+          className={`relative overflow-hidden flex flex-col items-center justify-center p-3 rounded-2xl text-white transition-all active:scale-95 text-center cursor-pointer select-none backdrop-blur-md border border-white/40 ${
             activeSubFilter === 'taken'
-              ? 'ring-3 ring-emerald-500 ring-offset-2 scale-[1.02] shadow-[0_12px_25px_rgba(21,167,80,0.45)]'
-              : 'hover:brightness-105'
+              ? 'ring-2 ring-emerald-300 ring-offset-2 ring-offset-white/80 scale-[1.03] shadow-[0_12px_28px_rgba(21,167,80,0.4)]'
+              : 'shadow-[0_8px_20px_rgba(21,167,80,0.22)] hover:-translate-y-0.5'
           }`}
           style={{
-            background: 'linear-gradient(135deg, #2CD16D 0%, #15A750 100%)',
+            background: 'linear-gradient(135deg, rgba(44,209,109,0.92) 0%, rgba(21,167,80,0.92) 100%)',
+            boxShadow: 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.6), 0 8px 20px rgba(21, 167, 80, 0.22)',
           }}
         >
-          <div className="flex items-center gap-1 text-[10px] sm:text-xs font-black uppercase tracking-tight">
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent rounded-t-2xl pointer-events-none" />
+          <div className="relative z-10 flex items-center gap-1 text-[10px] sm:text-xs font-black uppercase tracking-tight drop-shadow-xs">
             <Check className="w-3.5 h-3.5 stroke-[3]" />
             <span>Selesai</span>
           </div>
-          <span className="text-xl sm:text-2xl font-black mt-0.5 tracking-tight">
+          <span className="relative z-10 text-xl sm:text-2xl font-black mt-0.5 tracking-tight drop-shadow-sm">
             {sudahDiambilCount}
           </span>
           {activeSubFilter === 'taken' && (
-            <span className="absolute -bottom-1.5 w-4 h-1 bg-white rounded-full"></span>
+            <span className="relative z-10 mt-1 w-4 h-1 bg-white rounded-full shadow-xs"></span>
           )}
         </button>
       </div>
 
-      {/* Sub-navigation Pill Bar (Matching Photo: [ 📅 Booking ] [ ⚗ Filter ] [ 🔍 Cari ]) */}
+      {/* Sub-navigation Pill Bar */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar text-xs">
           <button
             type="button"
             onClick={() => setActiveSubFilter('all')}
-            className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition-all cursor-pointer backdrop-blur-md ${
               activeSubFilter === 'all'
-                ? 'bg-slate-900 text-white shadow-xs'
-                : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+                ? 'bg-slate-900 text-white shadow-sm border border-slate-700'
+                : 'glass-pill text-slate-700 hover:bg-white/90 border border-white/80'
             }`}
           >
             <Calendar className="w-3.5 h-3.5" />

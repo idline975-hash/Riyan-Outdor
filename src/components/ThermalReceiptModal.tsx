@@ -2,6 +2,7 @@ import React from 'react';
 import { X, Printer, MessageCircle } from 'lucide-react';
 import { RentalOrder } from '../types';
 import { formatRupiah, generateWhatsAppMessage } from '../utils/formatters';
+import { getStoredSettings } from './SettingsView';
 
 interface ThermalReceiptModalProps {
   isOpen: boolean;
@@ -95,7 +96,7 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptModalProps> = ({
               fontSize: '11px',
               lineHeight: '1.4',
               width: '100%',
-              maxWidth: '300px',
+              maxWidth: getStoredSettings().paperWidth === '80mm' ? '380px' : '300px',
               padding: '16px',
               borderTop: '8px dashed #cbd5e1',
               borderBottom: '8px dashed #cbd5e1',
@@ -119,13 +120,13 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptModalProps> = ({
                 {receiptSubtitle}
               </div>
               <div style={{ fontWeight: 900, fontSize: '14px', textTransform: 'uppercase' }}>
-                SUMMIT CAMP OUTDOOR
+                {getStoredSettings().storeName}
               </div>
               <div style={{ fontSize: '10px', color: '#475569' }}>
-                Penyewaan Alat Gunung Terlengkap
+                {getStoredSettings().storeTagline}
               </div>
               <div style={{ fontSize: '9px', color: '#64748b', marginTop: '2px' }}>
-                Jl. Kaliurang KM 9, Sleman, DIY · WA: 0812-3456-7890
+                {getStoredSettings().storeAddress} · WA: {getStoredSettings().storePhone}
               </div>
             </div>
 
@@ -290,7 +291,7 @@ export const ThermalReceiptModal: React.FC<ThermalReceiptModalProps> = ({
             {/* Footer Notice & Barcode */}
             <div style={{ paddingTop: '8px', textAlign: 'center', fontSize: '8px', color: '#64748b', lineHeight: '1.2' }}>
               <p style={{ fontWeight: 'bold', color: '#334155', marginBottom: '2px' }}>KETENTUAN:</p>
-              <p>• Struk ini adalah bukti sah transaksi di Summit Camp Outdoor.</p>
+              <p>• {getStoredSettings().receiptFooter}</p>
               <p>• Simpan struk ini saat pengambilan maupun pengembalian alat.</p>
 
               {/* Barcode Mock */}

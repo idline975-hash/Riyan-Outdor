@@ -9,6 +9,7 @@ interface TopBarProps {
   onOpenNewOrder: () => void;
   currentShift: CashierShift;
   onOpenShiftModal: () => void;
+  onOpenLoginModal: () => void;
   viewMode: 'auto' | 'phone-sim' | 'mobile' | 'desktop';
   onToggleViewMode: () => void;
   isOnline: boolean;
@@ -25,6 +26,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenNewOrder,
   currentShift,
   onOpenShiftModal,
+  onOpenLoginModal,
   viewMode,
   onToggleViewMode,
   isOnline,
@@ -38,7 +40,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   const isSimulated = viewMode === 'phone-sim' || viewMode === 'mobile';
 
   return (
-    <header className="w-full bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-[0_4px_16px_rgba(15,23,42,0.06)] px-2 sm:px-3 py-1.5 flex items-center justify-between gap-1.5 sm:gap-2 transition-all">
+    <header className="w-full glass-surface rounded-2xl px-2.5 sm:px-3.5 py-1.5 flex items-center justify-between gap-1.5 sm:gap-2 transition-all shadow-[0_8px_32px_rgba(15,23,42,0.05)] border border-white/80">
       <div className="w-full flex items-center justify-between gap-1.5 sm:gap-2 min-w-0">
         {/* Left: Burger Drawer Trigger + Brand */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -46,13 +48,13 @@ export const TopBar: React.FC<TopBarProps> = ({
             type="button"
             onClick={onOpenSidebar}
             title="Buka Menu Navigasi"
-            className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center transition-colors active:scale-95 cursor-pointer shadow-2xs shrink-0"
+            className="w-8 h-8 rounded-xl glass-button hover:bg-white text-slate-800 flex items-center justify-center transition-all active:scale-95 cursor-pointer shrink-0"
           >
             <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
           <div className="flex items-center gap-1.5 shrink-0">
-            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-gradient-to-tr from-blue-700 to-blue-500 text-white flex items-center justify-center shadow-xs shrink-0">
+            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-500 text-white flex items-center justify-center shadow-xs shrink-0 ring-1 ring-white/50">
               <Mountain className="w-3.5 h-3.5" />
             </div>
             <span className="font-black text-slate-900 text-xs sm:text-sm tracking-tight whitespace-nowrap">
@@ -84,7 +86,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             type="button"
             onClick={onToggleViewMode}
             title={isSimulated ? 'Beralih ke Tampilan Layar Penuh Otomatis' : 'Simulasi Tampilan Bingkai HP'}
-            className="hidden sm:flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-semibold transition-all cursor-pointer shrink-0"
+            className="hidden sm:flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-xl glass-button text-slate-700 hover:text-slate-900 text-xs font-semibold transition-all cursor-pointer shrink-0"
           >
             {isSimulated ? (
               <>
@@ -99,12 +101,27 @@ export const TopBar: React.FC<TopBarProps> = ({
             )}
           </button>
 
+          {/* Quick Cashier Login / Switch button */}
+          <button
+            type="button"
+            onClick={onOpenLoginModal}
+            title={`Kasir: ${currentShift.cashierName} (${currentShift.shiftName}) · Klik untuk Ganti / Login Kasir`}
+            className="flex items-center gap-1.5 px-2 py-1 rounded-xl glass-button text-slate-700 text-xs font-bold transition-all cursor-pointer shrink-0"
+          >
+            <div className="w-5 h-5 rounded-lg bg-emerald-500 text-white text-[11px] font-black flex items-center justify-center shrink-0 shadow-2xs">
+              {currentShift.cashierName.charAt(0).toUpperCase()}
+            </div>
+            <span className="hidden sm:inline text-[11px] text-slate-800 font-extrabold max-w-[70px] truncate">
+              {currentShift.cashierName}
+            </span>
+          </button>
+
           {/* Quick Input Nota Button */}
           <button
             type="button"
             onClick={onOpenNewOrder}
             title="Tambah Nota Sewa Baru (+)"
-            className="px-2.5 sm:px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-xl text-xs font-black flex items-center gap-1 shadow-sm transition-all cursor-pointer shrink-0 whitespace-nowrap"
+            className="px-2.5 sm:px-3.5 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-95 text-white rounded-xl text-xs font-black flex items-center gap-1 shadow-md shadow-blue-500/25 border border-white/20 transition-all cursor-pointer shrink-0 whitespace-nowrap"
           >
             <Plus className="w-3.5 h-3.5 stroke-[3] shrink-0" />
             <span className="text-xs">Sewa</span>
