@@ -40,7 +40,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   const isSimulated = viewMode === 'phone-sim' || viewMode === 'mobile';
 
   return (
-    <header className="w-full glass-surface rounded-2xl px-2.5 sm:px-3.5 py-1.5 flex items-center justify-between gap-1.5 sm:gap-2 transition-all shadow-[0_8px_32px_rgba(15,23,42,0.05)] border border-white/80">
+    <header className="w-full bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl shadow-[0_4px_16px_rgba(15,23,42,0.06)] px-2 sm:px-3 py-1.5 flex items-center justify-between gap-1.5 sm:gap-2 transition-all">
       <div className="w-full flex items-center justify-between gap-1.5 sm:gap-2 min-w-0">
         {/* Left: Burger Drawer Trigger + Brand */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -48,7 +48,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             type="button"
             onClick={onOpenSidebar}
             title="Buka Menu Navigasi"
-            className="w-8 h-8 rounded-xl glass-button hover:bg-white text-slate-800 flex items-center justify-center transition-all active:scale-95 cursor-pointer shrink-0"
+            className="w-8 h-8 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center transition-colors active:scale-95 cursor-pointer shadow-2xs shrink-0"
           >
             <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>

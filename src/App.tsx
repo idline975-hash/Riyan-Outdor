@@ -396,25 +396,17 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen bg-slate-900/5 relative text-slate-800 flex flex-col selection:bg-blue-500 selection:text-white w-full max-w-full overflow-x-hidden app app-scale-${uiScale}`}>
-      {/* Ambient background light orbs for frosted glass refraction */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-sky-400/20 blur-3xl" />
-        <div className="absolute top-1/4 -right-40 w-[30rem] h-[30rem] rounded-full bg-indigo-500/15 blur-3xl" />
-        <div className="absolute top-2/3 left-1/3 w-96 h-96 rounded-full bg-emerald-400/15 blur-3xl" />
-        <div className="absolute -bottom-20 right-1/4 w-80 h-80 rounded-full bg-amber-400/15 blur-3xl" />
-      </div>
-
-      {/* App Container: Automatically adapts smoothly to HP, Tablet, and Desktop with glassy aesthetic */}
+    <div className={`min-h-screen bg-slate-100 text-slate-800 flex flex-col selection:bg-blue-500 selection:text-white w-full max-w-full overflow-x-hidden app app-scale-${uiScale}`}>
+      {/* App Container: Automatically adapts smoothly to HP, Tablet, and Desktop */}
       <div
-        className={`w-full flex flex-col transition-all duration-300 mx-auto relative z-10 ${
+        className={`w-full flex flex-col transition-all duration-300 mx-auto ${
           viewMode === 'phone-sim'
-            ? 'max-w-md glass-surface shadow-[0_25px_60px_-15px_rgba(15,23,42,0.18)] my-3 sm:my-6 rounded-3xl border border-white/80 min-h-[92vh] overflow-hidden'
-            : 'max-w-7xl bg-white/40 backdrop-blur-3xl w-full min-h-screen border-x border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.03)]'
+            ? 'max-w-md bg-white shadow-2xl my-3 sm:my-6 rounded-3xl border border-slate-300 min-h-[92vh]'
+            : 'max-w-7xl bg-slate-50/70 w-full min-h-screen'
         }`}
       >
         {/* Top Header Bar */}
-        <div className="sticky top-0 z-30 w-full px-2 sm:px-4 py-2 bg-white/40 backdrop-blur-xl border-b border-white/60">
+        <div className="sticky top-0 z-30 w-full px-2 sm:px-4 py-2 bg-slate-100/90 backdrop-blur-md">
           <TopBar
             onOpenSidebar={() => setIsSidebarOpen(true)}
             onOpenNewOrder={() => setIsInputNotaOpen(true)}

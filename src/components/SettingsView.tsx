@@ -126,11 +126,27 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
   const handleClearCache = () => {
     try {
-      localStorage.removeItem('campgear_pos_orders');
-      localStorage.removeItem('campgear_pos_inventory');
-      localStorage.removeItem('campgear_pos_shift');
-      localStorage.removeItem('campgear_pos_customers');
-      playSound('beep');
+      localStorage.setItem('campgear_pos_orders', JSON.stringify([]));
+      localStorage.setItem('campgear_pos_customers', JSON.stringify([]));
+      localStorage.setItem('campgear_pos_shift', JSON.stringify({
+        shiftName: 'Shift 1',
+        shiftHours: '08:00 - 16:00',
+        cashierName: 'Kasir Utama',
+        openingCash: 0,
+        cashIn: 0,
+        qrisIn: 0,
+        transferIn: 0,
+        totalTransactions: 0,
+      }));
+      // Reset rented stock in inventory to 0
+      const currentInv = inventory.length > 0 ? inventory : JSON.parse(localStorage.getItem('campgear_pos_inventory') || '[]');
+      const emptyInv = currentInv.map((i: GearItem) => ({
+        ...i,
+        rentedStock: 0,
+      }));
+      localStorage.setItem('campgear_pos_inventory', JSON.stringify(emptyInv));
+
+      playSound('success');
       window.location.reload();
     } catch {
       // ignore
